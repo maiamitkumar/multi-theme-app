@@ -1,4 +1,9 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, {
+  useContext,
+  useState,
+  useRef,
+  useEffect
+} from 'react';
 import { ThemeContext, Theme } from './ThemeContext';
 import { Link } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';

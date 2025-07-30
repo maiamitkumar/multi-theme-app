@@ -2,7 +2,7 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <div>
+    <>
       <div className="w-100 mb-4">
         <img
           src="https://revelindia.in/assets/frontpage/img/photo/about_us.gif"
@@ -22,7 +22,7 @@ const About: React.FC = () => {
         <br />
         We are a team of 100+ people who are passionate about building great products. We are always looking for new challenges and opportunities to grow.
       </p>
-    </div>
+    </>
   );
 };
 

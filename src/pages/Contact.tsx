@@ -63,7 +63,6 @@ const Contact: React.FC<ContactProps> = ({ theme }) => {
 
   return (
     <div className={containerClass}>
-      {/* Header Section */}
       <header className="bg-primary text-white text-center py-5 mb-5 rounded-3 shadow">
         <div className="row align-items-center">
           <div className="col-md-8">
