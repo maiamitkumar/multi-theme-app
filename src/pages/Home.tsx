@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  theme: string;
+}
+
+const Home: React.FC<HomeProps> =  ({ theme }) => {
   const [products, setProducts] = useState([]);
   const [productCount, setProductCount] = useState(8);
 
@@ -9,32 +13,24 @@ const Home: React.FC = () => {
     axios.get('https://fakestoreapi.com/products').then(res => setProducts(res.data));
   }, []);
 
-  const handleAddProducts = () => {
+  const handleLoadMore = () => {
     setProductCount(prev => Math.min(prev + 4, products.length));
   };
 
-  const handleReduceProducts = () => {
-    setProductCount(prev => Math.max(prev - 4, 4));
-  };
+  const hasMoreProducts = productCount < products.length;
 
   return (
     <div>
       <h1>Home Page</h1>
       <p>This is the sample content paragraph.</p>
       <div className="mb-3">
-        <button className="btn btn-primary me-2" onClick={handleAddProducts}>
-          Add Products
-        </button>
-        <button className="btn btn-secondary" onClick={handleReduceProducts}>
-          Reduce Products
-        </button>
-        <span className="ms-3 text-muted">Showing {productCount} products</span>
+        <span className={`${theme === 'theme2' ? 'text-light' : 'text-muted' }`}>Showing {productCount} of {products.length} products</span>
       </div>
-      <div className="row">
+      <div className="row product-grid px-3">
         {products.slice(0, productCount).map((product: any) => (
-          <div className="col-md-3 col-sm-6 mb-3" key={product.id}>
+          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={product.id}>
             <div 
-              className="card h-100 shadow-sm border-0 bg-light-hover" 
+              className="card h-100 shadow-sm card-hover border-0 bg-light-hover" 
               style={{ 
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -50,13 +46,28 @@ const Home: React.FC = () => {
                 <img src={product.image} className="card-img-top bg-light" alt={product.title} />
               </div>
               <div className="card-body">
-                <h5 className="card-title">{product.title}</h5>
+                <h5 className="card-title">
+                  {product.title.split(' ').slice(0, 5).join(' ')}
+                  {product.title.split(' ').length > 5 ? '...' : ''}
+                </h5>
                 <p className="card-text">${product.price}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
+      
+      {hasMoreProducts && (
+        <div className="text-center pb-3 load-more-container">
+          <button 
+            className="btn btn-primary btn-sm px-3 py-2" 
+            onClick={handleLoadMore}
+          >
+            <i className="bi bi-arrow-down-circle me-2"></i>
+            Load More Products
+          </button>
+        </div>
+      )}
     </div>
   );
 };

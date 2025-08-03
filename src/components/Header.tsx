@@ -16,44 +16,57 @@ const themes = [
 
 const Header: React.FC = () => {
   const { theme, setTheme } = useContext(ThemeContext);
-  const [open, setOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [desktopOpen, setDesktopOpen] = useState(false);
+  const desktopDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpen(false);
+      if (
+        desktopDropdownRef.current &&
+        !desktopDropdownRef.current.contains(event.target as Node)
+      ) {
+        setDesktopOpen(false);
       }
     };
-    if (open) document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [open]);
+  }, []);
 
-  const handleThemeChange = (value: Theme) => {
+  const handleThemeChange = (value: Theme, isMobile = false) => {
     setTheme(value);
-    setOpen(false);
   };
 
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow ">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">MultiThemeApp</Link>
-        <div className="d-flex ms-auto align-items-center">
-          <Link className="nav-link me-3" to="/about">About</Link>
-          <Link className="nav-link me-3" to="/contact">Contact</Link>
-          <div className="position-relative" ref={dropdownRef}>
+        <Link
+          className={`navbar-brand fs-4 fw-bold`}
+          to="/"
+        >
+          MultiTheme
+        </Link>
+
+        <div className="ms-auto align-items-center d-flex">
+          {theme !== 'theme2' && (
+            <Link className="nav-link me-3" to="/about">About</Link>
+          )}
+
+          {theme !== 'theme2' && (
+            <Link className="nav-link me-3" to="/contact">Contact</Link>
+          )}
+          <div className="position-relative" ref={desktopDropdownRef}>
             <button
-              className={`btn btn-light border shadow-sm d-flex align-items-center fw-medium fs-6 ${open ? 'border-primary shadow' : ''}`}
+              className={`btn btn-light border shadow-sm d-flex align-items-center fw-medium fs-6 ${desktopOpen ? 'border-primary shadow' : ''}`}
               style={{ minWidth: '120px' }}
-              onClick={() => setOpen((prev) => !prev)}
+              onClick={() => setDesktopOpen((prev) => !prev)}
               aria-haspopup="listbox"
-              aria-expanded={open}
+              aria-expanded={desktopOpen}
             >
               {themes.find((t) => t.value === theme)?.label || 'Select Theme'}
-              <i className={`bi bi-chevron-down ms-2 transition-rotate ${open ? 'rotate-180' : ''}`}></i>
+              <i className={`bi bi-chevron-down ms-2 transition-rotate ${desktopOpen ? 'rotate-180' : ''}`}></i>
             </button>
             <div
-              className={`position-absolute top-100 start-0 end-0 bg-white rounded shadow-lg overflow-hidden ${open ? 'd-block' : 'd-none'}`}
+              className={`position-absolute top-100 start-0 end-0 bg-white rounded shadow-lg overflow-hidden ${desktopOpen ? 'd-block' : 'd-none'}`}
               style={{
                 zIndex: 100,
                 maxHeight: '500px',

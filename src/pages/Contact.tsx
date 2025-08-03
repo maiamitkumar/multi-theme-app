@@ -59,10 +59,8 @@ const Contact: React.FC<ContactProps> = ({ theme }) => {
     }
   ], []);
 
-  const containerClass = theme === 'theme2' ? 'container' : 'container-fluid';
-
   return (
-    <div className={containerClass}>
+    <div>
       <header className="bg-primary text-white text-center py-5 mb-5 rounded-3 shadow">
         <div className="row align-items-center">
           <div className="col-md-8">

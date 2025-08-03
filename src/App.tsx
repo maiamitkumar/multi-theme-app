@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -9,14 +9,22 @@ import { ThemeContext } from './components/ThemeContext';
 
 const App: React.FC = () => {
   const { theme } = useContext(ThemeContext);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleSidebarToggle = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
     <>
       <Header />
-      {theme === 'theme2' && <Sidebar />}
-      <div className="container mt-5 pt-5">
+      {theme === 'theme2' && <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />}
+      <div
+        className={`container mt-5`}
+        style={{ paddingTop: theme === 'theme2' ? '80px' : '40px' }}
+      >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home theme={theme} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact theme={theme} />} />
         </Routes>
