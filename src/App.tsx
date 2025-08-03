@@ -20,8 +20,17 @@ const App: React.FC = () => {
       <Header />
       {theme === 'theme2' && <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />}
       <div
-        className={`container mt-5`}
-        style={{ paddingTop: theme === 'theme2' ? '80px' : '40px' }}
+        className="container mt-5"
+        style={{
+          paddingTop:
+        window.innerWidth <= 413
+          ? theme === 'theme2'
+            ? '120px'
+            : '80px'
+          : theme === 'theme2'
+            ? '80px'
+            : '80px'
+        }}
       >
         <Routes>
           <Route path="/" element={<Home theme={theme} />} />

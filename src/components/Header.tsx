@@ -34,6 +34,7 @@ const Header: React.FC = () => {
 
   const handleThemeChange = (value: Theme, isMobile = false) => {
     setTheme(value);
+    setDesktopOpen(false);
   };
 
   return (
